@@ -11,7 +11,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::paginate(2);
         $cities = City::all();
         return view('customers.list', compact('customers', 'cities'));
     }
@@ -21,7 +21,7 @@ class CustomerController extends Controller
 
         $cityFilter = City::findOrFail($idCity);
 
-        $customers = Customer::where('city_id', $cityFilter->id)->get();
+        $customers = Customer::where('city_id', $cityFilter->id)->paginate(2);
         $totalCustomerFilter = count($customers);
         $cities = City::all();
 
@@ -80,5 +80,15 @@ class CustomerController extends Controller
 
         //xoa xong quay ve trang danh sach khach hang
         return redirect()->route('customers.index');
+    }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        if (!$keyword) {
+            return redirect()->route('customers.index');
+        }
+        $customers = Customer::where('name', 'LIKE', '%' . $keyword . '%')->paginate(5);
+        $cities = City::all();
+        return view('customers.list', compact('customers', 'cities'));
     }
 }
