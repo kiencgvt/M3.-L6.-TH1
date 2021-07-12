@@ -1,26 +1,29 @@
 @extends('home')
-@section('title', 'Danh sách khách hàng')
 
 @section('content')
     <div class="col-12">
         <div class="row">
             <div class="col-12">
-                <h1>Danh Sách Khách Hàng</h1>
+                <h1>@lang('language.title')</h1>
             </div>
             <a class="btn btn-outline-primary" href="" data-toggle="modal" data-target="#cityModal">
-                Lọc
+                @lang('language.filter')
             </a>
-            <div class="col-6">
+            <div class="col-12">
                 <form class="navbar-form navbar-left" action="{{ route('customers.search') }}">
                     @csrf
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-4">
                             <div class="form-group">
                                 <input type="text" name="keyword" class="form-control" placeholder="Search">
                             </div>
                         </div>
                         <div class="col-4">
-                            <button type="submit" class="btn btn-default">Tìm kiếm</button>
+                            <button type="submit" class="btn btn-default">@lang('language.search')</button>
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-primary" href="{{ route('user.change-language', ['en']) }}">English</a>
+                            <a class="btn btn-primary" href="{{ route('user.change-language', ['vi']) }}">Tiếng Việt</a>
                         </div>
                     </div>
                 </form>
@@ -50,10 +53,10 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Tên khách hàng</th>
-                    <th scope="col">Ngày Sinh</th>
+                    <th scope="col">@lang('language.customer_name')</th>
+                    <th scope="col">@lang('language.dob')</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Tỉnh thành</th>
+                    <th scope="col">@lang('language.city')</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -79,7 +82,7 @@
                 @endif
                 </tbody>
             </table>
-            <a class="btn btn-primary" href="{{ route('customers.create') }}">Thêm mới</a>
+            <a class="btn btn-primary" href="{{ route('customers.create') }}">@lang('language.btn_add')</a>
         </div>
         {{ $customers->appends(request()->query()) }}
         <!-- Modal -->
